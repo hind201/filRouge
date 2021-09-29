@@ -1,16 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-// const cookieParser = require('cookie-parser');
- const expressValidator = require('express-validator')
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator')
+const fs = require('fs')
+
 
  //Import Routes
- const authRoutes = require('./routes/auth');
-
+const authRoutes = require('./routes/auth');
+const userRoutes = require ('./routes/users');
+const categoryRoutes = require('./routes/categories')
+const productRoutes = require('./routes/products')
 
 //Config App
 require('dotenv').config();
 const app = express();
+
 
 //Db mongoDB
 mongoose.connect(process.env.db, {
@@ -24,13 +29,16 @@ mongoose.connect(process.env.db, {
 //Middlewares
 app.use(express.json())
 app.use(cors())
- app.use(expressValidator())
-//  app.use(cookieParser())
+app.use(expressValidator())
+app.use(cookieParser())
 
 
 //Routes Middleware
 
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/product', productRoutes);
 
 
 

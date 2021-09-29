@@ -44,15 +44,21 @@ const {email,password}=req.body;
  if(!isMatch) return res.status(400).json({msg: "Incorrect password."})
     
  
- const token = jwt.sign({ id:user._id, role: user.role,}, process.env.JWT);
-    
+ const token = jwt.sign({ _id:user._id, role: user.role,}, process.env.JWT);
+//  res.cookie('token',token,{expire:new Date()+600000000})
+//  const {_id,name,email,role} =data;
+//  return res.json({
+//    token,user:{_id,name,email,role}
+//  })
+// const {_id,name,email,role}=user;
     return res.status(200).cookie('token', token, {
       maxAge: 600000000,
-      httpOnly: true,
-    }).json({isAuth: true, role: user.role})
+    httpOnly: true,
+    //  }).json({token,user:{_id,name,email,role}})
+   
+     }).json({token, _id:user._id,name:user.name,email:user.email,role: user.role})
   
-
-
+    
 
   })
   
